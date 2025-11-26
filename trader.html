@@ -765,15 +765,9 @@
             Disclaimer: This is not financial advice. All trading involves risk. Past performance does not guarantee
             future results.
         </p>
-        <p class="last-updated">Last updated: <span id="last-updated"></span></p>
     </footer>
 
     <script>
-        // Display last updated time
-        const lastUpdated = new Date(document.lastModified);
-        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-        document.getElementById('last-updated').textContent = lastUpdated.toLocaleDateString('en-US', options);
-
         // Add intersection observer for fade-in animations
         const observerOptions = {
             threshold: 0.1,

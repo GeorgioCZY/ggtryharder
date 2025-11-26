@@ -17,6 +17,11 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
+            - name: Update timestamp in index.html
+              run: |
+                  TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+                  sed -i "s/__LAST_UPDATED_TIMESTAMP__/$TIMESTAMP/g" index.html
+
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v4
               with:
