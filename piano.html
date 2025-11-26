@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piano Learner | George</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a202c;
+            overflow-x: hidden;
+            background: linear-gradient(to bottom, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(33, 37, 41, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 3px solid #6c757d;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #f8f9fa;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #f8f9fa;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #adb5bd;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            padding-top: 5rem;
+            background:
+                linear-gradient(135deg, rgba(108, 117, 125, 0.1) 0%, rgba(73, 80, 87, 0.1) 100%),
+                repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(0, 0, 0, 0.02) 60px, rgba(0, 0, 0, 0.02) 61px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 30% 40%, rgba(108, 117, 125, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(73, 80, 87, 0.08) 0%, transparent 50%);
+            animation: musicFlow 6s ease-in-out infinite;
+        }
+
+        @keyframes musicFlow {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .piano-title {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #212529 0%, #495057 50%, #6c757d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .piano-status {
+            font-size: 1.3rem;
+            color: #495057;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            color: #343a40;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #6c757d;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #495057;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-transform: uppercase;
+        }
+
+        /* Learning Journey Section */
+        .learning-journey {
+            padding: 5rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #212529 0%, #495057 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .journey-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .journey-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #adb5bd;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .journey-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(108, 117, 125, 0.3);
+        }
+
+        .journey-card h3 {
+            font-size: 1.5rem;
+            color: #343a40;
+            margin-bottom: 1rem;
+        }
+
+        .journey-card p {
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        /* Current Progress Section */
+        .progress-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(to bottom, rgba(248, 249, 250, 0.5), rgba(233, 236, 239, 0.5));
+        }
+
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .progress-card {
+            background: white;
+            border: 2px solid #6c757d;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .progress-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(108, 117, 125, 0.2);
+            border-color: #495057;
+        }
+
+        .progress-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .progress-card h3 {
+            font-size: 1.5rem;
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-level {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(108, 117, 125, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #495057, #6c757d);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Practice Routine Section */
+        .practice-routine {
+            padding: 5rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .routine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .routine-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #adb5bd;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .routine-card:hover {
+            transform: translateY(-5px);
+            border-color: #6c757d;
+        }
+
+        .routine-card h3 {
+            font-size: 1.5rem;
+            color: #343a40;
+            margin-bottom: 1rem;
+        }
+
+        .routine-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            color: #495057;
+        }
+
+        /* Learning Resources Section */
+        .resources {
+            padding: 5rem 2rem;
+            background: linear-gradient(to bottom, rgba(248, 249, 250, 0.5), rgba(233, 236, 239, 0.5));
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .resource-card {
+            background: white;
+            border: 2px solid #6c757d;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            border-color: #495057;
+        }
+
+        .resource-card h3 {
+            font-size: 1.3rem;
+            color: #495057;
+            margin-bottom: 1rem;
+        }
+
+        .resource-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(108, 117, 125, 0.3);
+        }
+
+        .resource-item:last-child {
+            border-bottom: none;
+        }
+
+        .resource-label {
+            color: #495057;
+        }
+
+        .resource-value {
+            color: #6c757d;
+            font-weight: 600;
+        }
+
+        /* Milestones & Goals */
+        .milestones {
+            padding: 5rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .milestones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .milestone {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #adb5bd;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .milestone:hover {
+            border-color: #6c757d;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+        }
+
+        .milestone.completed {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-color: #28a745;
+        }
+
+        .milestone-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .milestone h4 {
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+
+        .milestone.completed h4 {
+            color: #155724;
+        }
+
+        .milestone p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .milestone.completed p {
+            color: #155724;
+        }
+
+        .milestone-status {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 2rem;
+            background: #212529;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 3px solid #495057;
+        }
+
+        .last-updated {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                padding: 0.8rem 1rem;
+            }
+
+            .nav-links {
+                gap: 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .piano-title {
+                font-size: 2.5rem;
+                letter-spacing: 1px;
+            }
+
+            .piano-status {
+                font-size: 1.1rem;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+
+            .stats-bar {
+                gap: 1rem;
+            }
+
+            .stat {
+                padding: 0.8rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">🎹 George</a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/professional.html">Professional</a></li>
+            <li><a href="/gamer.html">Gamer</a></li>
+            <li><a href="/mtb.html">MTB</a></li>
+            <li><a href="/trader.html">Trader</a></li>
+            <li><a href="/swimmer.html">Swimmer</a></li>
+            <li><a href="/table-tennis.html">Table Tennis</a></li>
+            <li><a href="/reader.html">Reader</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="piano-status">🎹 BEGINNER PIANIST • DEDICATED LEARNER</div>
+            <h1 class="piano-title">Piano Journey</h1>
+            <p class="tagline">"Music is the language of the soul, and I'm learning to speak it."</p>
+            <div class="stats-bar">
+                <div class="stat">
+                    <div class="stat-value">6</div>
+                    <div class="stat-label">Months Learning</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">5hrs</div>
+                    <div class="stat-label">Weekly Practice</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Songs Learned</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Journey -->
+    <section class="learning-journey">
+        <h2 class="section-title">Learning Journey</h2>
+        <div class="journey-content">
+            <div class="journey-card">
+                <h3>🎵 Why Piano?</h3>
+                <p>
+                    Always been fascinated by the piano's ability to express emotions. Starting this journey
+                    as a complete beginner to explore music theory, develop coordination, and experience
+                    the joy of creating melodies.
+                </p>
+            </div>
+            <div class="journey-card">
+                <h3>📚 Learning Approach</h3>
+                <p>
+                    Taking online lessons combined with daily practice. Starting with the fundamentals—
+                    reading sheet music, proper hand position, and basic scales. Slowly building muscle
+                    memory and understanding music theory.
+                </p>
+            </div>
+            <div class="journey-card">
+                <h3>🎯 Long-term Vision</h3>
+                <p>
+                    Goal is to play my favorite songs fluently and understand music composition. Not rushing
+                    the process—focusing on enjoying each small improvement and celebrating every milestone
+                    along the way.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Current Progress -->
+    <section class="progress-section">
+        <h2 class="section-title">Current Skills</h2>
+        <div class="progress-grid">
+            <div class="progress-card">
+                <div class="progress-icon">🎼</div>
+                <h3>Sheet Music Reading</h3>
+                <div class="skill-level">
+                    <div class="skill-bar">
+                        <div class="skill-bar-fill" style="width: 35%;"></div>
+                    </div>
+                    <span>35%</span>
+                </div>
+                <p>Learning to read treble and bass clefs, recognizing notes and rhythms.</p>
+            </div>
+            <div class="progress-card">
+                <div class="progress-icon">🎹</div>
+                <h3>Hand Coordination</h3>
+                <div class="skill-level">
+                    <div class="skill-bar">
+                        <div class="skill-bar-fill" style="width: 40%;"></div>
+                    </div>
+                    <span>40%</span>
+                </div>
+                <p>Practicing independent hand movements and coordination between left and right.</p>
+            </div>
+            <div class="progress-card">
+                <div class="progress-icon">🎵</div>
+                <h3>Scales & Technique</h3>
+                <div class="skill-level">
+                    <div class="skill-bar">
+                        <div class="skill-bar-fill" style="width: 45%;"></div>
+                    </div>
+                    <span>45%</span>
+                </div>
+                <p>Working on C, G, and D major scales with proper fingering technique.</p>
+            </div>
+            <div class="progress-card">
+                <div class="progress-icon">🎶</div>
+                <h3>Music Theory</h3>
+                <div class="skill-level">
+                    <div class="skill-bar">
+                        <div class="skill-bar-fill" style="width: 30%;"></div>
+                    </div>
+                    <span>30%</span>
+                </div>
+                <p>Understanding time signatures, key signatures, and basic chord progressions.</p>
+            </div>
+            <div class="progress-card">
+                <div class="progress-icon">💪</div>
+                <h3>Finger Strength</h3>
+                <div class="skill-level">
+                    <div class="skill-bar">
+                        <div class="skill-bar-fill" style="width: 50%;"></div>
+                    </div>
+                    <span>50%</span>
+                </div>
+                <p>Building finger strength and dexterity through daily exercises and practice.</p>
+            </div>
+            <div class="progress-card">
+                <div class="progress-icon">🎼</div>
+                <h3>Sight Reading</h3>
+                <div class="skill-level">
+                    <div class="skill-bar">
+                        <div class="skill-bar-fill" style="width: 25%;"></div>
+                    </div>
+                    <span>25%</span>
+                </div>
+                <p>Starting to play simple pieces at first sight, slowly improving speed.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Practice Routine -->
+    <section class="practice-routine">
+        <h2 class="section-title">Practice Routine</h2>
+        <div class="routine-grid">
+            <div class="routine-card">
+                <h3>⏰ Daily Practice</h3>
+                <div class="routine-item">🌅 Morning warmup: 15 minutes</div>
+                <div class="routine-item">🎹 Scales & exercises: 15 minutes</div>
+                <div class="routine-item">🎵 Song practice: 20 minutes</div>
+                <div class="routine-item">📖 Theory study: 10 minutes</div>
+            </div>
+            <div class="routine-card">
+                <h3>📝 Current Focus</h3>
+                <div class="routine-item">✋ Proper hand posture</div>
+                <div class="routine-item">🎼 Reading both clefs simultaneously</div>
+                <div class="routine-item">⚡ Increasing tempo gradually</div>
+                <div class="routine-item">🎯 Smooth transitions between chords</div>
+            </div>
+            <div class="routine-card">
+                <h3>🎵 Learning Songs</h3>
+                <div class="routine-item">🌟 Twinkle Twinkle Little Star (Mastered)</div>
+                <div class="routine-item">🎹 Ode to Joy (Practicing)</div>
+                <div class="routine-item">🎶 Für Elise - Intro (Learning)</div>
+                <div class="routine-item">💫 Pachelbel's Canon (Future goal)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Resources -->
+    <section class="resources">
+        <h2 class="section-title">Learning Resources</h2>
+        <div class="resources-grid">
+            <div class="resource-card">
+                <h3>📚 Online Courses</h3>
+                <div class="resource-item">
+                    <span class="resource-label">Main Platform</span>
+                    <span class="resource-value">Simply Piano</span>
+                </div>
+                <div class="resource-item">
+                    <span class="resource-label">Video Lessons</span>
+                    <span class="resource-value">YouTube</span>
+                </div>
+                <div class="resource-item">
+                    <span class="resource-label">Theory</span>
+                    <span class="resource-value">musictheory.net</span>
+                </div>
+            </div>
+            <div class="resource-card">
+                <h3>🎹 Equipment</h3>
+                <div class="resource-item">
+                    <span class="resource-label">Keyboard</span>
+                    <span class="resource-value">Yamaha P-45</span>
+                </div>
+                <div class="resource-item">
+                    <span class="resource-label">Keys</span>
+                    <span class="resource-value">88 weighted</span>
+                </div>
+                <div class="resource-item">
+                    <span class="resource-label">Pedal</span>
+                    <span class="resource-value">Sustain pedal</span>
+                </div>
+            </div>
+            <div class="resource-card">
+                <h3>📖 Books & Materials</h3>
+                <div class="resource-item">
+                    <span class="resource-label">Method Book</span>
+                    <span class="resource-value">Alfred's Basic</span>
+                </div>
+                <div class="resource-item">
+                    <span class="resource-label">Theory Book</span>
+                    <span class="resource-value">Music Theory</span>
+                </div>
+                <div class="resource-item">
+                    <span class="resource-label">Sheet Music</span>
+                    <span class="resource-value">MuseScore</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Milestones & Goals -->
+    <section class="milestones">
+        <h2 class="section-title">Milestones & Goals</h2>
+        <div class="milestones-grid">
+            <div class="milestone completed">
+                <div class="milestone-icon">✅</div>
+                <h4>First Notes</h4>
+                <p>Played first melody on piano</p>
+                <div class="milestone-status">Completed</div>
+            </div>
+            <div class="milestone completed">
+                <div class="milestone-icon">✅</div>
+                <h4>Both Hands</h4>
+                <p>Played with both hands together</p>
+                <div class="milestone-status">Completed</div>
+            </div>
+            <div class="milestone completed">
+                <div class="milestone-icon">✅</div>
+                <h4>First Song</h4>
+                <p>Completed entire beginner song</p>
+                <div class="milestone-status">Completed</div>
+            </div>
+            <div class="milestone completed">
+                <div class="milestone-icon">✅</div>
+                <h4>Read Music</h4>
+                <p>Can read basic sheet music</p>
+                <div class="milestone-status">Completed</div>
+            </div>
+            <div class="milestone">
+                <div class="milestone-icon">🎯</div>
+                <h4>Play Chords</h4>
+                <p>Master basic chord progressions</p>
+                <div class="milestone-status">In Progress</div>
+            </div>
+            <div class="milestone">
+                <div class="milestone-icon">🎯</div>
+                <h4>Für Elise</h4>
+                <p>Learn and perform Für Elise</p>
+                <div class="milestone-status">Future Goal</div>
+            </div>
+            <div class="milestone">
+                <div class="milestone-icon">🎯</div>
+                <h4>Improvise</h4>
+                <p>Create simple improvisations</p>
+                <div class="milestone-status">Future Goal</div>
+            </div>
+            <div class="milestone">
+                <div class="milestone-icon">🎯</div>
+                <h4>Compose Music</h4>
+                <p>Write my own piano piece</p>
+                <div class="milestone-status">Future Goal</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 George • One Note at a Time</p>
+        <p class="last-updated">Last updated: <span id="last-updated"></span></p>
+    </footer>
+
+    <script>
+        // Display last updated time
+        const lastUpdated = new Date(document.lastModified);
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        document.getElementById('last-updated').textContent = lastUpdated.toLocaleDateString('en-US', options);
+
+        // Add intersection observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe cards
+        document.querySelectorAll('.journey-card, .progress-card, .routine-card, .resource-card, .milestone').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = `opacity 0.6s ease ${index * 0.05}s, transform 0.6s ease ${index * 0.05}s`;
+            observer.observe(card);
+        });
+    </script>
+</body>
+
+</html>

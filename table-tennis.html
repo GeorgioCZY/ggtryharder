@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Tennis | George</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a202c;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 50%, #f59e0b 100%);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(245, 158, 11, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 3px solid #f97316;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #451a03;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #451a03;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #7c2d12;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            padding-top: 5rem;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(251, 191, 36, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.3) 0%, transparent 50%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background:
+                repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(245, 158, 11, 0.1) 20px, rgba(245, 158, 11, 0.1) 40px),
+                repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(245, 158, 11, 0.1) 20px, rgba(245, 158, 11, 0.1) 40px);
+            animation: tableMove 4s linear infinite;
+        }
+
+        @keyframes tableMove {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(20px, 20px);
+            }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tt-title {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 50%, #ea580c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .tt-status {
+            font-size: 1.3rem;
+            color: #92400e;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            color: #451a03;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #f59e0b;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f97316;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #92400e;
+            text-transform: uppercase;
+        }
+
+        /* Playing Style Section */
+        .playing-style {
+            padding: 5rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .style-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .style-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #fbbf24;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .style-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+        }
+
+        .style-card h3 {
+            font-size: 1.5rem;
+            color: #92400e;
+            margin-bottom: 1rem;
+        }
+
+        .style-card p {
+            color: #451a03;
+            line-height: 1.8;
+        }
+
+        /* Techniques Section */
+        .techniques {
+            padding: 5rem 2rem;
+            background: linear-gradient(to bottom, rgba(254, 243, 199, 0.5), rgba(253, 224, 71, 0.5));
+        }
+
+        .techniques-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .technique-card {
+            background: white;
+            border: 2px solid #f59e0b;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .technique-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+            border-color: #f97316;
+        }
+
+        .technique-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .technique-card h3 {
+            font-size: 1.5rem;
+            color: #ea580c;
+            margin-bottom: 0.5rem;
+        }
+
+        .technique-rating {
+            color: #fbbf24;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .technique-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        /* Equipment Section */
+        .equipment {
+            padding: 5rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .equipment-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #fbbf24;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .equipment-card:hover {
+            transform: translateY(-5px);
+            border-color: #f59e0b;
+        }
+
+        .equipment-card h3 {
+            font-size: 1.5rem;
+            color: #92400e;
+            margin-bottom: 1rem;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            color: #451a03;
+        }
+
+        .spec-value {
+            color: #f97316;
+            font-weight: 600;
+        }
+
+        /* Training Section */
+        .training {
+            padding: 5rem 2rem;
+            background: linear-gradient(to bottom, rgba(254, 243, 199, 0.5), rgba(253, 224, 71, 0.5));
+        }
+
+        .training-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .training-card {
+            background: white;
+            border: 2px solid #f59e0b;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .training-card:hover {
+            transform: translateY(-5px);
+            border-color: #ea580c;
+        }
+
+        .training-card h3 {
+            font-size: 1.5rem;
+            color: #92400e;
+            margin-bottom: 1rem;
+        }
+
+        .training-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            color: #451a03;
+        }
+
+        /* Achievements */
+        .achievements {
+            padding: 5rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .achievement {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #fbbf24;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .achievement:hover {
+            border-color: #f59e0b;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement h4 {
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement p {
+            color: #451a03;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 2rem;
+            background: #92400e;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 3px solid #f97316;
+        }
+
+        .last-updated {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                padding: 0.8rem 1rem;
+            }
+
+            .nav-links {
+                gap: 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .tt-title {
+                font-size: 2.5rem;
+                letter-spacing: 1px;
+            }
+
+            .tt-status {
+                font-size: 1.1rem;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+
+            .stats-bar {
+                gap: 1rem;
+            }
+
+            .stat {
+                padding: 0.8rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">🏓 George</a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/professional.html">Professional</a></li>
+            <li><a href="/gamer.html">Gamer</a></li>
+            <li><a href="/mtb.html">MTB</a></li>
+            <li><a href="/trader.html">Trader</a></li>
+            <li><a href="/swimmer.html">Swimmer</a></li>
+            <li><a href="/reader.html">Reader</a></li>
+            <li><a href="/piano.html">Piano</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="tt-status">🏓 FAST REFLEXES • PRECISION PLAYER</div>
+            <h1 class="tt-title">Ping Pong Master</h1>
+            <p class="tagline">Lightning Reactions • Spin Control • Strategic Play</p>
+            <div class="stats-bar">
+                <div class="stat">
+                    <div class="stat-value">8+</div>
+                    <div class="stat-label">Years Playing</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">1800</div>
+                    <div class="stat-label">Club Rating</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">30+</div>
+                    <div class="stat-label">Tournaments</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Playing Style -->
+    <section class="playing-style">
+        <h2 class="section-title">Playing Style</h2>
+        <div class="style-content">
+            <div class="style-card">
+                <h3>⚡ Aggressive Attack</h3>
+                <p>
+                    Fast-paced offensive style with quick loops and powerful smashes. Dominating the table
+                    with aggressive positioning and rapid counter-attacks.
+                </p>
+            </div>
+            <div class="style-card">
+                <h3>🎯 Spin Mastery</h3>
+                <p>
+                    Expert control of topspin, backspin, and sidespin variations. Using spin to create
+                    opportunities and force errors from opponents.
+                </p>
+            </div>
+            <div class="style-card">
+                <h3>🧠 Strategic Mind</h3>
+                <p>
+                    Reading opponents' patterns and adapting tactics mid-game. Mixing pace and placement
+                    to keep adversaries off-balance.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Techniques -->
+    <section class="techniques">
+        <h2 class="section-title">Signature Techniques</h2>
+        <div class="techniques-grid">
+            <div class="technique-card">
+                <div class="technique-icon">💥</div>
+                <h3>Forehand Loop</h3>
+                <div class="technique-rating">★★★★★</div>
+                <p>Powerful topspin forehand with excellent consistency and control.</p>
+            </div>
+            <div class="technique-card">
+                <div class="technique-icon">🌀</div>
+                <h3>Backhand Flick</h3>
+                <div class="technique-rating">★★★★☆</div>
+                <p>Quick wrist action for aggressive returns over the table.</p>
+            </div>
+            <div class="technique-card">
+                <div class="technique-icon">⚡</div>
+                <h3>Fast Serve</h3>
+                <div class="technique-rating">★★★★★</div>
+                <p>Deceptive serves with heavy spin and placement variation.</p>
+            </div>
+            <div class="technique-card">
+                <div class="technique-icon">🎯</div>
+                <h3>Counter Loop</h3>
+                <div class="technique-rating">★★★★☆</div>
+                <p>Countering opponent's topspin with even heavier spin.</p>
+            </div>
+            <div class="technique-card">
+                <div class="technique-icon">🔄</div>
+                <h3>Chop Defense</h3>
+                <div class="technique-rating">★★★☆☆</div>
+                <p>Backspin defense from mid-distance when under pressure.</p>
+            </div>
+            <div class="technique-card">
+                <div class="technique-icon">🚀</div>
+                <h3>Smash</h3>
+                <div class="technique-rating">★★★★★</div>
+                <p>Finishing high balls with power and precision.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Equipment -->
+    <section class="equipment">
+        <h2 class="section-title">Equipment Setup</h2>
+        <div class="equipment-grid">
+            <div class="equipment-card">
+                <h3>🏓 Main Paddle</h3>
+                <div class="spec-item">
+                    <span class="spec-label">Blade</span>
+                    <span class="spec-value">Offensive Carbon</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Forehand Rubber</span>
+                    <span class="spec-value">Tenergy 05 (2.1mm)</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Backhand Rubber</span>
+                    <span class="spec-value">Dignics 05 (2.0mm)</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Speed</span>
+                    <span class="spec-value">95/100</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Control</span>
+                    <span class="spec-value">85/100</span>
+                </div>
+            </div>
+            <div class="equipment-card">
+                <h3>🎾 Practice Paddle</h3>
+                <div class="spec-item">
+                    <span class="spec-label">Blade</span>
+                    <span class="spec-value">All-Round Wood</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Forehand Rubber</span>
+                    <span class="spec-value">Mark V (2.0mm)</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Backhand Rubber</span>
+                    <span class="spec-value">Mark V (1.8mm)</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Speed</span>
+                    <span class="spec-value">75/100</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Control</span>
+                    <span class="spec-value">95/100</span>
+                </div>
+            </div>
+            <div class="equipment-card">
+                <h3>👕 Gear</h3>
+                <div class="spec-item">
+                    <span class="spec-label">Shoes</span>
+                    <span class="spec-value">Butterfly Lezoline</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Clothing</span>
+                    <span class="spec-value">Moisture-wicking</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Towel</span>
+                    <span class="spec-value">Quick-dry microfiber</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Case</span>
+                    <span class="spec-value">Hard shell protection</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Training -->
+    <section class="training">
+        <h2 class="section-title">Training Routine</h2>
+        <div class="training-grid">
+            <div class="training-card">
+                <h3>📅 Weekly Schedule</h3>
+                <div class="training-item">⚡ Club sessions: 4x per week</div>
+                <div class="training-item">🎯 Match play: 2-3x per week</div>
+                <div class="training-item">🏋️ Fitness training: 2x per week</div>
+                <div class="training-item">📹 Video analysis: Weekly</div>
+            </div>
+            <div class="training-card">
+                <h3>🎓 Practice Focus</h3>
+                <div class="training-item">🎯 Serve and receive drills</div>
+                <div class="training-item">💥 Multi-ball training</div>
+                <div class="training-item">🌀 Spin variation exercises</div>
+                <div class="training-item">⚡ Footwork and positioning</div>
+            </div>
+            <div class="training-card">
+                <h3>💪 Physical Conditioning</h3>
+                <div class="training-item">🏃 Agility and speed work</div>
+                <div class="training-item">💪 Core strengthening</div>
+                <div class="training-item">👁️ Reaction time drills</div>
+                <div class="training-item">🧘 Flexibility and balance</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements -->
+    <section class="achievements">
+        <h2 class="section-title">Achievements & Milestones</h2>
+        <div class="achievements-grid">
+            <div class="achievement">
+                <div class="achievement-icon">🏆</div>
+                <h4>Club Champion</h4>
+                <p>Won multiple club tournaments</p>
+            </div>
+            <div class="achievement">
+                <div class="achievement-icon">📈</div>
+                <h4>Rating Milestone</h4>
+                <p>Reached 1800+ club rating</p>
+            </div>
+            <div class="achievement">
+                <div class="achievement-icon">⚡</div>
+                <h4>Speed Record</h4>
+                <p>Fastest smash: 95 km/h</p>
+            </div>
+            <div class="achievement">
+                <div class="achievement-icon">🎯</div>
+                <h4>Tournament Podium</h4>
+                <p>10+ top-3 finishes</p>
+            </div>
+            <div class="achievement">
+                <div class="achievement-icon">🌟</div>
+                <h4>Perfect Serve</h4>
+                <p>15-point serve streak</p>
+            </div>
+            <div class="achievement">
+                <div class="achievement-icon">👥</div>
+                <h4>Team Leader</h4>
+                <p>Captain of club team</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 George • Fast Reflexes, Faster Wins</p>
+        <p class="last-updated">Last updated: <span id="last-updated"></span></p>
+    </footer>
+
+    <script>
+        // Display last updated time
+        const lastUpdated = new Date(document.lastModified);
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        document.getElementById('last-updated').textContent = lastUpdated.toLocaleDateString('en-US', options);
+
+        // Add intersection observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe cards
+        document.querySelectorAll('.style-card, .technique-card, .equipment-card, .training-card, .achievement').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = `opacity 0.6s ease ${index * 0.05}s, transform 0.6s ease ${index * 0.05}s`;
+            observer.observe(card);
+        });
+    </script>
+</body>
+
+</html>

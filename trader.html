@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Trader | George</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a202c;
+            overflow-x: hidden;
+            background: #0f1419;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 20, 25, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 2px solid #1da1f2;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #1da1f2;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #1da1f2;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            padding-top: 5rem;
+            background:
+                linear-gradient(135deg, rgba(29, 161, 242, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(29, 161, 242, 0.03) 2px, rgba(29, 161, 242, 0.03) 4px),
+                #0f1419;
+            position: relative;
+        }
+
+        .ticker-tape {
+            position: absolute;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: rgba(29, 161, 242, 0.1);
+            padding: 0.5rem;
+            overflow: hidden;
+            border-top: 1px solid rgba(29, 161, 242, 0.3);
+            border-bottom: 1px solid rgba(29, 161, 242, 0.3);
+        }
+
+        .ticker-content {
+            display: flex;
+            gap: 3rem;
+            animation: scroll 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .ticker-item {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .ticker-up {
+            color: #10b981;
+        }
+
+        .ticker-down {
+            color: #ef4444;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .trader-name {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #1da1f2 0%, #10b981 50%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .market-status {
+            font-size: 1.3rem;
+            color: #10b981;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            background: rgba(29, 161, 242, 0.1);
+            border: 2px solid #1da1f2;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1da1f2;
+            font-family: 'Courier New', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+        }
+
+        /* Trading Style Section */
+        .trading-style {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #1da1f2 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .style-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .style-card {
+            background: rgba(29, 161, 242, 0.05);
+            border: 2px solid rgba(29, 161, 242, 0.3);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .style-card:hover {
+            transform: translateY(-5px);
+            border-color: #1da1f2;
+            box-shadow: 0 10px 30px rgba(29, 161, 242, 0.3);
+        }
+
+        .style-card h3 {
+            font-size: 1.5rem;
+            color: #1da1f2;
+            margin-bottom: 1rem;
+        }
+
+        .style-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+        }
+
+        /* Strategies Section */
+        .strategies {
+            padding: 5rem 2rem;
+            background: #0f1419;
+        }
+
+        .strategies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .strategy-card {
+            background: linear-gradient(135deg, rgba(29, 161, 242, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+            border: 2px solid transparent;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .strategy-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, #1da1f2, #10b981);
+            border-radius: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .strategy-card:hover::before {
+            opacity: 1;
+        }
+
+        .strategy-card:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        .strategy-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .strategy-card h3 {
+            font-size: 1.5rem;
+            color: #1da1f2;
+            margin-bottom: 0.5rem;
+        }
+
+        .strategy-type {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .strategy-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .portfolio-card {
+            background: rgba(16, 185, 129, 0.05);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+            border-color: #10b981;
+        }
+
+        .portfolio-card h3 {
+            font-size: 1.5rem;
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+
+        .allocation {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .allocation:last-child {
+            border-bottom: none;
+        }
+
+        .allocation-label {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .allocation-value {
+            color: #1da1f2;
+            font-weight: 600;
+        }
+
+        /* Tools Section */
+        .tools {
+            padding: 5rem 2rem;
+            background: #0f1419;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tool-card {
+            background: rgba(29, 161, 242, 0.05);
+            border: 2px solid rgba(29, 161, 242, 0.2);
+            padding: 2rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover {
+            border-color: #1da1f2;
+            transform: scale(1.05);
+        }
+
+        .tool-card h4 {
+            color: #1da1f2;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .tool-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Performance Section */
+        .performance {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .performance-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.1) 100%);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .performance-card:hover {
+            border-color: #10b981;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.2);
+        }
+
+        .performance-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .performance-card h4 {
+            color: #10b981;
+            margin-bottom: 0.5rem;
+        }
+
+        .performance-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 2rem;
+            background: #000;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 2px solid #1da1f2;
+        }
+
+        .disclaimer {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+        }
+
+        .last-updated {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                padding: 0.8rem 1rem;
+            }
+
+            .nav-links {
+                gap: 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .ticker-tape {
+                top: 65px;
+            }
+
+            .trader-name {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+
+            .market-status {
+                font-size: 1.1rem;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+
+            .stats-bar {
+                gap: 1rem;
+            }
+
+            .stat {
+                padding: 0.8rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">📈 George</a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/professional.html">Professional</a></li>
+            <li><a href="/gamer.html">Gamer</a></li>
+            <li><a href="/mtb.html">MTB</a></li>
+            <li><a href="/swimmer.html">Swimmer</a></li>
+            <li><a href="/table-tennis.html">Table Tennis</a></li>
+            <li><a href="/reader.html">Reader</a></li>
+            <li><a href="/piano.html">Piano</a></li>
+        </ul>
+    </nav>
+
+    <!-- Ticker Tape -->
+    <div class="ticker-tape">
+        <div class="ticker-content">
+            <span class="ticker-item ticker-up">SPY +0.85%</span>
+            <span class="ticker-item ticker-up">QQQ +1.23%</span>
+            <span class="ticker-item ticker-down">TSLA -2.14%</span>
+            <span class="ticker-item ticker-up">AAPL +0.67%</span>
+            <span class="ticker-item ticker-up">MSFT +1.05%</span>
+            <span class="ticker-item ticker-down">NVDA -0.92%</span>
+            <span class="ticker-item ticker-up">AMZN +1.34%</span>
+            <span class="ticker-item ticker-up">GOOGL +0.78%</span>
+            <span class="ticker-item ticker-up">SPY +0.85%</span>
+            <span class="ticker-item ticker-up">QQQ +1.23%</span>
+            <span class="ticker-item ticker-down">TSLA -2.14%</span>
+            <span class="ticker-item ticker-up">AAPL +0.67%</span>
+            <span class="ticker-item ticker-up">MSFT +1.05%</span>
+            <span class="ticker-item ticker-down">NVDA -0.92%</span>
+            <span class="ticker-item ticker-up">AMZN +1.34%</span>
+            <span class="ticker-item ticker-up">GOOGL +0.78%</span>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="market-status">📊 MARKET HOURS • TRADING ACTIVE</div>
+            <h1 class="trader-name">Active Trader</h1>
+            <p class="tagline">Data-Driven Decisions • Risk Management • Long-Term Growth</p>
+            <div class="stats-bar">
+                <div class="stat">
+                    <div class="stat-value">+27%</div>
+                    <div class="stat-label">Annual Return</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">5 Years</div>
+                    <div class="stat-label">Experience</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">1000+</div>
+                    <div class="stat-label">Trades</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trading Style -->
+    <section class="trading-style">
+        <h2 class="section-title">Trading Philosophy</h2>
+        <div class="style-content">
+            <div class="style-card">
+                <h3>📊 Technical Analysis</h3>
+                <p>
+                    Combining chart patterns, indicators, and volume analysis to identify high-probability setups.
+                    Focus on support/resistance levels, trend analysis, and momentum indicators.
+                </p>
+            </div>
+            <div class="style-card">
+                <h3>📰 Fundamental Research</h3>
+                <p>
+                    Deep dive into financials, earnings reports, and market conditions. Understanding the business
+                    behind the stock for informed long-term investment decisions.
+                </p>
+            </div>
+            <div class="style-card">
+                <h3>⚖️ Risk Management</h3>
+                <p>
+                    Strict position sizing, stop-losses, and portfolio diversification. Never risking more than 2%
+                    on a single trade. Capital preservation is priority number one.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trading Strategies -->
+    <section class="strategies">
+        <h2 class="section-title">Trading Strategies</h2>
+        <div class="strategies-grid">
+            <div class="strategy-card">
+                <div class="strategy-icon">📈</div>
+                <h3>Swing Trading</h3>
+                <div class="strategy-type">Primary Strategy</div>
+                <p>Holding positions for days to weeks, capturing medium-term trends and momentum plays.</p>
+            </div>
+            <div class="strategy-card">
+                <div class="strategy-icon">💎</div>
+                <h3>Value Investing</h3>
+                <div class="strategy-type">Long-Term</div>
+                <p>Identifying undervalued companies with strong fundamentals for long-term growth potential.</p>
+            </div>
+            <div class="strategy-card">
+                <div class="strategy-icon">⚡</div>
+                <h3>Momentum Trading</h3>
+                <div class="strategy-type">Short-Term</div>
+                <p>Capitalizing on strong trending stocks with high relative strength and volume.</p>
+            </div>
+            <div class="strategy-card">
+                <div class="strategy-icon">🎯</div>
+                <h3>Options Strategies</h3>
+                <div class="strategy-type">Advanced</div>
+                <p>Spreads, covered calls, and protective puts for income generation and hedging.</p>
+            </div>
+            <div class="strategy-card">
+                <div class="strategy-icon">🌊</div>
+                <h3>Sector Rotation</h3>
+                <div class="strategy-type">Tactical</div>
+                <p>Shifting capital to sectors showing relative strength based on economic cycles.</p>
+            </div>
+            <div class="strategy-card">
+                <div class="strategy-icon">📊</div>
+                <h3>Breakout Trading</h3>
+                <div class="strategy-type">Technical</div>
+                <p>Entering positions when price breaks through key resistance levels with volume.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Focus -->
+    <section class="portfolio">
+        <h2 class="section-title">Portfolio Allocation</h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-card">
+                <h3>🚀 Growth Stocks</h3>
+                <div class="allocation">
+                    <span class="allocation-label">Technology</span>
+                    <span class="allocation-value">25%</span>
+                </div>
+                <div class="allocation">
+                    <span class="allocation-label">Healthcare</span>
+                    <span class="allocation-value">15%</span>
+                </div>
+                <div class="allocation">
+                    <span class="allocation-label">Consumer</span>
+                    <span class="allocation-value">10%</span>
+                </div>
+            </div>
+            <div class="portfolio-card">
+                <h3>💼 Index Funds</h3>
+                <div class="allocation">
+                    <span class="allocation-label">S&P 500 (SPY)</span>
+                    <span class="allocation-value">20%</span>
+                </div>
+                <div class="allocation">
+                    <span class="allocation-label">Nasdaq (QQQ)</span>
+                    <span class="allocation-value">15%</span>
+                </div>
+            </div>
+            <div class="portfolio-card">
+                <h3>🛡️ Defensive</h3>
+                <div class="allocation">
+                    <span class="allocation-label">Dividends</span>
+                    <span class="allocation-value">10%</span>
+                </div>
+                <div class="allocation">
+                    <span class="allocation-label">Cash</span>
+                    <span class="allocation-value">5%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools & Platform -->
+    <section class="tools">
+        <h2 class="section-title">Trading Arsenal</h2>
+        <div class="tools-grid">
+            <div class="tool-card">
+                <h4>📱 Trading Platforms</h4>
+                <p>TD Ameritrade, Interactive Brokers, TradingView for charting</p>
+            </div>
+            <div class="tool-card">
+                <h4>📊 Analysis Tools</h4>
+                <p>TradingView, Finviz, ThinkorSwim for technical analysis</p>
+            </div>
+            <div class="tool-card">
+                <h4>📰 Research</h4>
+                <p>Bloomberg Terminal, SeekingAlpha, Earnings Call transcripts</p>
+            </div>
+            <div class="tool-card">
+                <h4>📈 Data Sources</h4>
+                <p>Real-time Level 2, Market depth, Options flow data</p>
+            </div>
+            <div class="tool-card">
+                <h4>🤖 Automation</h4>
+                <p>Python scripts for screening, alerts, and backtesting</p>
+            </div>
+            <div class="tool-card">
+                <h4>📝 Journaling</h4>
+                <p>Detailed trade logs, performance tracking, continuous improvement</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Highlights -->
+    <section class="performance">
+        <h2 class="section-title">Performance & Milestones</h2>
+        <div class="performance-grid">
+            <div class="performance-card">
+                <div class="performance-icon">🎯</div>
+                <h4>Consistent Profitability</h4>
+                <p>Positive returns for 4 consecutive years</p>
+            </div>
+            <div class="performance-card">
+                <div class="performance-icon">📚</div>
+                <h4>Continuous Learning</h4>
+                <p>Read 50+ trading & investing books</p>
+            </div>
+            <div class="performance-card">
+                <div class="performance-icon">💰</div>
+                <h4>Best Trade</h4>
+                <p>+185% return on NVDA swing trade</p>
+            </div>
+            <div class="performance-card">
+                <div class="performance-icon">📊</div>
+                <h4>Win Rate</h4>
+                <p>62% success rate on swing trades</p>
+            </div>
+            <div class="performance-card">
+                <div class="performance-icon">🛡️</div>
+                <h4>Risk Control</h4>
+                <p>Max drawdown kept under 15%</p>
+            </div>
+            <div class="performance-card">
+                <div class="performance-icon">🎓</div>
+                <h4>Certifications</h4>
+                <p>Series 7, CMT Level 1</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 George • Trade Smart, Stay Disciplined</p>
+        <p class="disclaimer">
+            Disclaimer: This is not financial advice. All trading involves risk. Past performance does not guarantee
+            future results.
+        </p>
+        <p class="last-updated">Last updated: <span id="last-updated"></span></p>
+    </footer>
+
+    <script>
+        // Display last updated time
+        const lastUpdated = new Date(document.lastModified);
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        document.getElementById('last-updated').textContent = lastUpdated.toLocaleDateString('en-US', options);
+
+        // Add intersection observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe cards
+        document.querySelectorAll('.style-card, .strategy-card, .portfolio-card, .tool-card, .performance-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = `opacity 0.6s ease ${index * 0.05}s, transform 0.6s ease ${index * 0.05}s`;
+            observer.observe(card);
+        });
+    </script>
+</body>
+
+</html>

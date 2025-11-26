@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome | My Personal Website</title>
+    <title>George | Welcome</title>
     <style>
         * {
             margin: 0;
@@ -15,11 +15,11 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: white;
             overflow-x: hidden;
+            background: #0f0f0f;
         }
 
-        /* Animated gradient background */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -49,7 +49,7 @@
         }
 
         .hero-content {
-            max-width: 800px;
+            max-width: 900px;
             animation: fadeInUp 1s ease-out;
         }
 
@@ -66,96 +66,72 @@
         }
 
         h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: white;
+            font-size: 4rem;
+            font-weight: 900;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .tagline {
+        .subtitle {
             font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.95);
             margin-bottom: 2rem;
-            font-weight: 300;
+            opacity: 0.95;
         }
 
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .btn-primary {
-            background: white;
-            color: #e73c7e;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid white;
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-3px);
-        }
-
-        /* About Section */
-        .about {
-            padding: 5rem 2rem;
-            background: white;
-            text-align: center;
-        }
-
-        .about h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: #333;
-        }
-
-        .about p {
+        .section-label {
             font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-            color: #666;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
         }
 
-        /* Skills Section */
-        .skills {
-            padding: 5rem 2rem;
-            background: #f8f9fa;
+        .professional-section {
+            max-width: 1200px;
+            margin: 0 auto 4rem;
         }
 
-        .skills h2 {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            color: #333;
+        .professional-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            padding: 3rem;
+            border-radius: 25px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: block;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .skills-grid {
+        .professional-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .professional-card .persona-icon {
+            font-size: 5rem;
+        }
+
+        .professional-card h2 {
+            font-size: 2.2rem;
+        }
+
+        .professional-card p {
+            font-size: 1.2rem;
+        }
+
+        .personal-section {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .personas-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
@@ -163,245 +139,164 @@
             margin: 0 auto;
         }
 
-        .skill-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .skill-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: #e73c7e;
-        }
-
-        .skill-card p {
-            color: #666;
-        }
-
-        /* Contact Section */
-        .contact {
-            padding: 5rem 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-        }
-
-        .contact h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .social-link {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+        .persona-card {
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 20px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        .social-link:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-3px);
+        .persona-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
         }
 
-        /* Footer */
+        .persona-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .persona-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .persona-card p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
         .footer {
             padding: 2rem;
-            background: #2d3748;
+            background: rgba(0, 0, 0, 0.3);
             color: rgba(255, 255, 255, 0.7);
             text-align: center;
             font-size: 0.9rem;
         }
 
-        .last-updated {
-            margin-top: 0.5rem;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Scroll indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-
-            0%,
-            20%,
-            50%,
-            80%,
-            100% {
-                transform: translateX(-50%) translateY(0);
-            }
-
-            40% {
-                transform: translateX(-50%) translateY(-10px);
-            }
-
-            60% {
-                transform: translateX(-50%) translateY(-5px);
-            }
-        }
-
-        .scroll-indicator svg {
-            width: 30px;
-            height: 30px;
-            fill: white;
-            opacity: 0.8;
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.5rem;
             }
 
-            .tagline {
+            .subtitle {
                 font-size: 1.2rem;
             }
 
-            .about h2,
-            .skills h2,
-            .contact h2 {
-                font-size: 2rem;
+            .personas-grid {
+                grid-template-columns: 1fr;
             }
 
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
+            .professional-card {
+                padding: 2rem;
             }
 
-            .btn {
-                width: 100%;
-                max-width: 300px;
+            .professional-card .persona-icon {
+                font-size: 4rem;
+            }
+
+            .professional-card h2 {
+                font-size: 1.8rem;
+            }
+
+            .professional-card p {
+                font-size: 1rem;
+            }
+
+            .persona-card {
+                padding: 1.5rem;
+            }
+
+            .section-label {
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <h1>Hello, I'm George</h1>
-            <p class="tagline">Developer • Designer • Creator</p>
-            <div class="cta-buttons">
-                <a href="#about" class="btn btn-primary">Learn More</a>
-                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            <p class="subtitle">Explore my different personas</p>
+
+            <!-- Professional Section -->
+            <div class="professional-section">
+                <p class="section-label">💼 Professional</p>
+                <a href="/professional.html" class="professional-card">
+                    <span class="persona-icon">☁️</span>
+                    <h2>Software Engineer</h2>
+                    <p>Cloud Infrastructure • DevOps</p>
+                </a>
             </div>
-        </div>
-        <div class="scroll-indicator">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
-            </svg>
+
+            <!-- Personal Life Section -->
+            <div class="personal-section">
+                <p class="section-label">🌟 Personal Life</p>
+                <div class="personas-grid">
+                    <a href="/gamer.html" class="persona-card">
+                        <span class="persona-icon">🎮</span>
+                        <h2>Gamer</h2>
+                        <p>Competitive Player • Streamer</p>
+                    </a>
+
+                    <a href="/mtb.html" class="persona-card">
+                        <span class="persona-icon">🚵</span>
+                        <h2>Mountain Biker</h2>
+                        <p>Trail Warrior • Adventure Seeker</p>
+                    </a>
+
+                    <a href="/trader.html" class="persona-card">
+                        <span class="persona-icon">📈</span>
+                        <h2>Trader</h2>
+                        <p>Stock Market • Data-Driven</p>
+                    </a>
+
+                    <a href="/swimmer.html" class="persona-card">
+                        <span class="persona-icon">🏊</span>
+                        <h2>Swimmer</h2>
+                        <p>Competitive Swimmer • Endurance</p>
+                    </a>
+
+                    <a href="/table-tennis.html" class="persona-card">
+                        <span class="persona-icon">🏓</span>
+                        <h2>Table Tennis</h2>
+                        <p>Fast Reflexes • Precision Play</p>
+                    </a>
+
+                    <a href="/reader.html" class="persona-card">
+                        <span class="persona-icon">📚</span>
+                        <h2>Reader</h2>
+                        <p>Book Lover • Literary Explorer</p>
+                    </a>
+
+                    <a href="/piano.html" class="persona-card">
+                        <span class="persona-icon">🎹</span>
+                        <h2>Piano Learner</h2>
+                        <p>Beginner Pianist • Music Explorer</p>
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <h2>About Me</h2>
-        <p>
-            I'm a passionate developer with a love for creating beautiful and functional web experiences.
-            With expertise in modern technologies and a keen eye for design, I bring ideas to life through code.
-        </p>
-        <p>
-            When I'm not coding, you can find me exploring new technologies, contributing to open source,
-            or enjoying a good cup of coffee while brainstorming the next big project.
-        </p>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <h2>What I Do</h2>
-        <div class="skills-grid">
-            <div class="skill-card">
-                <h3>🎨 Web Design</h3>
-                <p>Creating beautiful, intuitive interfaces that users love to interact with.</p>
-            </div>
-            <div class="skill-card">
-                <h3>💻 Development</h3>
-                <p>Building robust, scalable applications with modern technologies and best practices.</p>
-            </div>
-            <div class="skill-card">
-                <h3>📱 Responsive Design</h3>
-                <p>Ensuring seamless experiences across all devices and screen sizes.</p>
-            </div>
-            <div class="skill-card">
-                <h3>🚀 Performance</h3>
-                <p>Optimizing applications for speed and efficiency without compromising quality.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <h2>Let's Connect</h2>
-        <p>I'm always open to new opportunities and interesting projects.</p>
-        <div class="social-links">
-            <!-- <a href="https://github.com/GeorgioCZY" class="social-link" target="_blank">GitHub</a> -->
-            <!-- <a href="https://linkedin.com/in/georgeczy" class="social-link" target="_blank">LinkedIn</a> -->
-            <a href="mailto:ggtryharder@gmail.com" class="social-link">Email</a>
-        </div>
-    </section>
-
-    <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2025 George. All rights reserved.</p>
-        <p class="last-updated">Last updated: <span id="last-updated"></span></p>
     </footer>
 
     <script>
-        // Display last updated time
-        const lastUpdated = new Date(document.lastModified);
-        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-        document.getElementById('last-updated').textContent = lastUpdated.toLocaleDateString('en-US', options);
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
         // Add intersection observer for fade-in animations
         const observerOptions = {
             threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
+            rootMargin: '0px 0px -50px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
@@ -413,8 +308,7 @@
             });
         }, observerOptions);
 
-        // Observe skill cards
-        document.querySelectorAll('.skill-card').forEach((card, index) => {
+        document.querySelectorAll('.persona-card').forEach((card, index) => {
             card.style.opacity = '0';
             card.style.transform = 'translateY(20px)';
             card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;

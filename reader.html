@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Reader | George</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a202c;
+            overflow-x: hidden;
+            background: linear-gradient(to bottom, #fef5e7 0%, #f4e4c1 50%, #e8d5b7 100%);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(101, 67, 33, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 3px solid #8b4513;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #f4e4c1;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #f4e4c1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #d4af37;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            padding-top: 5rem;
+            background:
+                linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(160, 82, 45, 0.1) 100%),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139, 69, 19, 0.03) 2px, rgba(139, 69, 19, 0.03) 4px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
+            animation: pageFlip 8s ease-in-out infinite;
+        }
+
+        @keyframes pageFlip {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reader-title {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #8b4513 0%, #a0522d 50%, #654321 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Georgia', serif;
+        }
+
+        .reader-status {
+            font-size: 1.3rem;
+            color: #654321;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-family: 'Georgia', serif;
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            color: #5d4037;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            font-style: italic;
+            font-family: 'Georgia', serif;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #8b4513;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #8b4513;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #654321;
+            text-transform: uppercase;
+        }
+
+        /* Reading Philosophy Section */
+        .reading-philosophy {
+            padding: 5rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Georgia', serif;
+        }
+
+        .philosophy-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .philosophy-card {
+            background: linear-gradient(135deg, #fef5e7 0%, #f9ebcd 100%);
+            border: 2px solid #d4af37;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .philosophy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(139, 69, 19, 0.3);
+        }
+
+        .philosophy-card h3 {
+            font-size: 1.5rem;
+            color: #654321;
+            margin-bottom: 1rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .philosophy-card p {
+            color: #5d4037;
+            line-height: 1.8;
+        }
+
+        /* Favorite Genres Section */
+        .genres {
+            padding: 5rem 2rem;
+            background: linear-gradient(to bottom, rgba(254, 245, 231, 0.5), rgba(249, 235, 205, 0.5));
+        }
+
+        .genres-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .genre-card {
+            background: white;
+            border: 2px solid #8b4513;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .genre-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(139, 69, 19, 0.2);
+            border-color: #a0522d;
+        }
+
+        .genre-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .genre-card h3 {
+            font-size: 1.5rem;
+            color: #8b4513;
+            margin-bottom: 0.5rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .genre-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        /* Currently Reading Section */
+        .currently-reading {
+            padding: 5rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .book-card {
+            background: linear-gradient(135deg, #fef5e7 0%, #f9ebcd 100%);
+            border: 2px solid #d4af37;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            border-color: #8b4513;
+        }
+
+        .book-card h3 {
+            font-size: 1.3rem;
+            color: #654321;
+            margin-bottom: 0.5rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .book-author {
+            color: #8b4513;
+            font-style: italic;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .book-progress {
+            width: 100%;
+            height: 8px;
+            background: rgba(139, 69, 19, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #8b4513, #d4af37);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .book-progress-text {
+            font-size: 0.85rem;
+            color: #654321;
+        }
+
+        .book-card p {
+            color: #5d4037;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+        }
+
+        /* Reading Habits Section */
+        .reading-habits {
+            padding: 5rem 2rem;
+            background: linear-gradient(to bottom, rgba(254, 245, 231, 0.5), rgba(249, 235, 205, 0.5));
+        }
+
+        .habits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .habit-card {
+            background: white;
+            border: 2px solid #8b4513;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .habit-card:hover {
+            transform: translateY(-5px);
+            border-color: #a0522d;
+        }
+
+        .habit-card h3 {
+            font-size: 1.5rem;
+            color: #654321;
+            margin-bottom: 1rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .habit-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            color: #5d4037;
+        }
+
+        /* Favorite Authors */
+        .authors {
+            padding: 5rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .authors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .author-card {
+            background: linear-gradient(135deg, #fef5e7 0%, #f9ebcd 100%);
+            border: 2px solid #d4af37;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .author-card:hover {
+            border-color: #8b4513;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
+        }
+
+        .author-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .author-card h4 {
+            color: #654321;
+            margin-bottom: 0.3rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .author-card p {
+            color: #8b4513;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 2rem;
+            background: #654321;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 3px solid #8b4513;
+        }
+
+        .last-updated {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                padding: 0.8rem 1rem;
+            }
+
+            .nav-links {
+                gap: 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .reader-title {
+                font-size: 2.5rem;
+                letter-spacing: 1px;
+            }
+
+            .reader-status {
+                font-size: 1.1rem;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+
+            .stats-bar {
+                gap: 1rem;
+            }
+
+            .stat {
+                padding: 0.8rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">📚 George</a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/professional.html">Professional</a></li>
+            <li><a href="/gamer.html">Gamer</a></li>
+            <li><a href="/mtb.html">MTB</a></li>
+            <li><a href="/trader.html">Trader</a></li>
+            <li><a href="/swimmer.html">Swimmer</a></li>
+            <li><a href="/table-tennis.html">Table Tennis</a></li>
+            <li><a href="/piano.html">Piano</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="reader-status">📚 BOOK LOVER • LITERARY EXPLORER</div>
+            <h1 class="reader-title">Lost in Books</h1>
+            <p class="tagline">"A reader lives a thousand lives before he dies." — George R.R. Martin</p>
+            <div class="stats-bar">
+                <div class="stat">
+                    <div class="stat-value">50+</div>
+                    <div class="stat-label">Books/Year</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">500+</div>
+                    <div class="stat-label">Books Read</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">2hrs</div>
+                    <div class="stat-label">Daily Reading</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reading Philosophy -->
+    <section class="reading-philosophy">
+        <h2 class="section-title">Reading Philosophy</h2>
+        <div class="philosophy-content">
+            <div class="philosophy-card">
+                <h3>📖 Diverse Reading</h3>
+                <p>
+                    Exploring multiple genres and perspectives to broaden understanding. From classic literature
+                    to modern thrillers, every book offers a new lens to view the world.
+                </p>
+            </div>
+            <div class="philosophy-card">
+                <h3>💭 Thoughtful Reflection</h3>
+                <p>
+                    Reading is not just consuming words—it's about contemplating ideas, questioning assumptions,
+                    and connecting concepts across different works and experiences.
+                </p>
+            </div>
+            <div class="philosophy-card">
+                <h3>✍️ Notes & Highlights</h3>
+                <p>
+                    Actively engaging with texts through annotations, highlighting key passages, and maintaining
+                    a reading journal to capture insights and memorable quotes.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Favorite Genres -->
+    <section class="genres">
+        <h2 class="section-title">Favorite Genres</h2>
+        <div class="genres-grid">
+            <div class="genre-card">
+                <div class="genre-icon">🔍</div>
+                <h3>Mystery & Thriller</h3>
+                <p>Love the suspense and intricate plots that keep me turning pages late into the night.</p>
+            </div>
+            <div class="genre-card">
+                <div class="genre-icon">🌌</div>
+                <h3>Science Fiction</h3>
+                <p>Exploring future possibilities and thought experiments about technology and humanity.</p>
+            </div>
+            <div class="genre-card">
+                <div class="genre-icon">🏰</div>
+                <h3>Fantasy</h3>
+                <p>Immersive world-building and epic adventures in realms of magic and wonder.</p>
+            </div>
+            <div class="genre-card">
+                <div class="genre-icon">📜</div>
+                <h3>Historical Fiction</h3>
+                <p>Bringing history to life through compelling narratives and rich period details.</p>
+            </div>
+            <div class="genre-card">
+                <div class="genre-icon">🧠</div>
+                <h3>Non-Fiction</h3>
+                <p>Learning about psychology, philosophy, science, and real-world insights.</p>
+            </div>
+            <div class="genre-card">
+                <div class="genre-icon">📝</div>
+                <h3>Classic Literature</h3>
+                <p>Timeless works that have shaped literature and continue to resonate today.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Currently Reading -->
+    <section class="currently-reading">
+        <h2 class="section-title">Currently Reading</h2>
+        <div class="books-grid">
+            <div class="book-card">
+                <h3>The Midnight Library</h3>
+                <div class="book-author">by Matt Haig</div>
+                <div class="book-progress">
+                    <div class="book-progress-bar" style="width: 65%;"></div>
+                </div>
+                <div class="book-progress-text">65% complete</div>
+                <p>A thought-provoking exploration of choices, regrets, and the infinite possibilities of life.</p>
+            </div>
+            <div class="book-card">
+                <h3>Project Hail Mary</h3>
+                <div class="book-author">by Andy Weir</div>
+                <div class="book-progress">
+                    <div class="book-progress-bar" style="width: 40%;"></div>
+                </div>
+                <div class="book-progress-text">40% complete</div>
+                <p>A gripping space adventure with humor, science, and an unforgettable journey to save humanity.</p>
+            </div>
+            <div class="book-card">
+                <h3>Atomic Habits</h3>
+                <div class="book-author">by James Clear</div>
+                <div class="book-progress">
+                    <div class="book-progress-bar" style="width: 80%;"></div>
+                </div>
+                <div class="book-progress-text">80% complete</div>
+                <p>Practical strategies for building good habits and breaking bad ones through tiny changes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reading Habits -->
+    <section class="reading-habits">
+        <h2 class="section-title">Reading Habits</h2>
+        <div class="habits-grid">
+            <div class="habit-card">
+                <h3>📅 Daily Routine</h3>
+                <div class="habit-item">☀️ Morning reading: 30 minutes</div>
+                <div class="habit-item">🌙 Before bed: 1 hour</div>
+                <div class="habit-item">🚇 Commute reading: When traveling</div>
+                <div class="habit-item">☕ Weekend mornings: Extended sessions</div>
+            </div>
+            <div class="habit-card">
+                <h3>📍 Favorite Spots</h3>
+                <div class="habit-item">🏠 Cozy reading nook at home</div>
+                <div class="habit-item">☕ Local coffee shops</div>
+                <div class="habit-item">📚 Public libraries</div>
+                <div class="habit-item">🌳 Parks on sunny days</div>
+            </div>
+            <div class="habit-card">
+                <h3">🎯 Reading Goals</h3>
+                    <div class="habit-item">📊 50+ books per year</div>
+                    <div class="habit-item">🌍 Read diverse authors</div>
+                    <div class="habit-item">📖 Mix of fiction and non-fiction</div>
+                    <div class="habit-item">✍️ Write reviews for favorites</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Favorite Authors -->
+    <section class="authors">
+        <h2 class="section-title">Favorite Authors</h2>
+        <div class="authors-grid">
+            <div class="author-card">
+                <div class="author-icon">✍️</div>
+                <h4>Brandon Sanderson</h4>
+                <p>Epic fantasy world-builder</p>
+            </div>
+            <div class="author-card">
+                <div class="author-icon">✍️</div>
+                <h4>Agatha Christie</h4>
+                <p>Queen of mystery</p>
+            </div>
+            <div class="author-card">
+                <div class="author-icon">✍️</div>
+                <h4>Isaac Asimov</h4>
+                <p>Sci-fi visionary</p>
+            </div>
+            <div class="author-card">
+                <div class="author-icon">✍️</div>
+                <h4>Jane Austen</h4>
+                <p>Classic wit and romance</p>
+            </div>
+            <div class="author-card">
+                <div class="author-icon">✍️</div>
+                <h4>Haruki Murakami</h4>
+                <p>Surreal storyteller</p>
+            </div>
+            <div class="author-card">
+                <div class="author-icon">✍️</div>
+                <h4>Malcolm Gladwell</h4>
+                <p>Thought-provoking insights</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 George • So Many Books, So Little Time</p>
+        <p class="last-updated">Last updated: <span id="last-updated"></span></p>
+    </footer>
+
+    <script>
+        // Display last updated time
+        const lastUpdated = new Date(document.lastModified);
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        document.getElementById('last-updated').textContent = lastUpdated.toLocaleDateString('en-US', options);
+
+        // Add intersection observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe cards
+        document.querySelectorAll('.philosophy-card, .genre-card, .book-card, .habit-card, .author-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = `opacity 0.6s ease ${index * 0.05}s, transform 0.6s ease ${index * 0.05}s`;
+            observer.observe(card);
+        });
+    </script>
+</body>
+
+</html>

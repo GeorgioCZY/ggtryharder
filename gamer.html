@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamer Profile | George</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            overflow-x: hidden;
+            background: #0a0e27;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 2px solid #ff6b35;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #ff6b35;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b35;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            padding-top: 5rem;
+            background:
+                linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(138, 43, 226, 0.1) 100%),
+                radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(138, 43, 226, 0.2) 0%, transparent 50%),
+                #0a0e27;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 107, 53, 0.03) 2px, rgba(255, 107, 53, 0.03) 4px);
+            animation: scanlines 8s linear infinite;
+        }
+
+        @keyframes scanlines {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(50px);
+            }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gamer-tag {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 30px rgba(255, 107, 53, 0.5);
+        }
+
+        .level {
+            font-size: 1.3rem;
+            color: #ff6b35;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            background: rgba(255, 107, 53, 0.1);
+            border: 2px solid #ff6b35;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ff6b35;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+        }
+
+        /* Gaming Profile Section */
+        .profile {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .profile-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .profile-card {
+            background: rgba(255, 107, 53, 0.05);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            border-color: #ff6b35;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .profile-card h3 {
+            font-size: 1.5rem;
+            color: #ff6b35;
+            margin-bottom: 1rem;
+        }
+
+        .profile-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+        }
+
+        /* Games Section */
+        .games {
+            padding: 5rem 2rem;
+            background: #0a0e27;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .game-card {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(138, 43, 226, 0.1) 100%);
+            border: 2px solid transparent;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, #ff6b35, #8a2be2);
+            border-radius: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        .game-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .game-card h3 {
+            font-size: 1.5rem;
+            color: #ff6b35;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-rank {
+            color: #ffd700;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+
+        /* Achievements Section */
+        .achievements {
+            padding: 5rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .achievement {
+            background: rgba(255, 215, 0, 0.05);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .achievement:hover {
+            border-color: #ffd700;
+            transform: scale(1.05);
+        }
+
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement h4 {
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Setup Section */
+        .setup {
+            padding: 5rem 2rem;
+            background: #0a0e27;
+        }
+
+        .setup-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .setup-item {
+            background: rgba(255, 107, 53, 0.05);
+            border-left: 4px solid #ff6b35;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 5px;
+        }
+
+        .setup-item h4 {
+            color: #ff6b35;
+            margin-bottom: 0.5rem;
+        }
+
+        .setup-item p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 2rem;
+            background: #000;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 2px solid #ff6b35;
+        }
+
+        .last-updated {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                padding: 0.8rem 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .gamer-tag {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+
+            .level {
+                font-size: 1.1rem;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+
+            .stats-bar {
+                gap: 1rem;
+            }
+
+            .stat {
+                padding: 0.8rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">🎮 George</a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/professional.html">Professional</a></li>
+            <li><a href="/mtb.html">MTB</a></li>
+            <li><a href="/trader.html">Trader</a></li>
+            <li><a href="/swimmer.html">Swimmer</a></li>
+            <li><a href="/table-tennis.html">Table Tennis</a></li>
+            <li><a href="/reader.html">Reader</a></li>
+            <li><a href="/piano.html">Piano</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="level">LEVEL 99 • PRESTIGE 5</div>
+            <h1 class="gamer-tag">GGTryHarder</h1>
+            <p class="tagline">Competitive Gamer • Streamer • Team Leader</p>
+            <div class="stats-bar">
+                <div class="stat">
+                    <div class="stat-value">2500+</div>
+                    <div class="stat-label">Hours Played</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">Diamond</div>
+                    <div class="stat-label">Rank</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">15+</div>
+                    <div class="stat-label">Tournaments</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gaming Profile -->
+    <section class="profile">
+        <h2 class="section-title">About My Gaming</h2>
+        <div class="profile-content">
+            <div class="profile-card">
+                <h3>🎯 Playstyle</h3>
+                <p>
+                    Aggressive yet strategic player who thrives in high-pressure situations. Known for clutch plays
+                    and exceptional game sense. Specializes in entry fragging and tactical shot-calling.
+                </p>
+            </div>
+            <div class="profile-card">
+                <h3>🎮 Main Roles</h3>
+                <p>
+                    Primary AWPer in CS2, Support/Flex in Valorant, and Jungler in League of Legends.
+                    Adaptable to team needs and always focused on winning the objective.
+                </p>
+            </div>
+            <div class="profile-card">
+                <h3>🏆 Competitive Experience</h3>
+                <p>
+                    5+ years of competitive gaming experience. Former semi-pro player with multiple tournament
+                    wins. Currently team captain and mentor for up-and-coming players.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Games -->
+    <section class="games">
+        <h2 class="section-title">Main Games</h2>
+        <div class="games-grid">
+            <div class="game-card">
+                <div class="game-icon">🎯</div>
+                <h3>Counter-Strike 2</h3>
+                <div class="game-rank">Global Elite • 3000+ hrs</div>
+                <p>Main AWPer with exceptional reflexes and map knowledge. Specializes in aggressive plays and clutch
+                    situations.</p>
+            </div>
+            <div class="game-card">
+                <div class="game-icon">💥</div>
+                <h3>Valorant</h3>
+                <div class="game-rank">Immortal 2 • 1500+ hrs</div>
+                <p>Flex player proficient with multiple agents. Strong utility usage and team coordination.</p>
+            </div>
+            <div class="game-card">
+                <div class="game-icon">⚔️</div>
+                <h3>League of Legends</h3>
+                <div class="game-rank">Diamond 1 • 2000+ hrs</div>
+                <p>Jungle main with deep understanding of macro play and objective control. Shotcaller and team leader.
+                </p>
+            </div>
+            <div class="game-card">
+                <div class="game-icon">🎲</div>
+                <h3>Teamfight Tactics</h3>
+                <div class="game-rank">Master • 800+ hrs</div>
+                <p>Strategic auto-battler specialist. Strong meta knowledge and adaptability to patches.</p>
+            </div>
+            <div class="game-card">
+                <div class="game-icon">🏃</div>
+                <h3>Apex Legends</h3>
+                <div class="game-rank">Predator • 1200+ hrs</div>
+                <p>Aggressive fragger with excellent movement mechanics. Multiple top 100 finishes in ranked.</p>
+            </div>
+            <div class="game-card">
+                <div class="game-icon">🎮</div>
+                <h3>Rocket League</h3>
+                <div class="game-rank">Champion 3 • 600+ hrs</div>
+                <p>Consistent mechanical play with strong rotation and positioning fundamentals.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements -->
+    <section class="achievements">
+        <h2 class="section-title">Achievements & Highlights</h2>
+        <div class="achievements-grid">
+            <div class="achievement">
+                <div class="achievement-icon">🏆</div>
+                <h4>Tournament Champion</h4>
+                <p>1st place in regional CS2 tournament 2024</p>
+            </div>
+            <div class="achievement">
+                <div class="achievement-icon">⭐</div>
+                <h4>Ranked Warrior</h4>
+                <p>Top 500 in multiple competitive games</p>
+            </div>
+            <div class="achievement">
+                <div class="achievement-icon">🎯</div>
+                <h4>Ace Master</h4>
+                <p>100+ competitive aces across FPS games</p>
+            </div>
+            <div class="achievement">
+                <div class="achievement-icon">👥</div>
+                <h4>Team Captain</h4>
+                <p>Led teams to 15+ tournament victories</p>
+            </div>
+            <div class="achievement">
+                <div class="achievement-icon">📺</div>
+                <h4>Content Creator</h4>
+                <p>Streaming and creating gaming content</p>
+            </div>
+            <div class="achievement">
+                <div class="achievement-icon">🎓</div>
+                <h4>Coach & Mentor</h4>
+                <p>Helping players improve their gameplay</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gaming Setup -->
+    <section class="setup">
+        <h2 class="section-title">Battle Station</h2>
+        <div class="setup-content">
+            <div class="setup-item">
+                <h4>🖥️ Monitor</h4>
+                <p>ASUS ROG Swift 360Hz • 1ms Response Time • G-SYNC Ultimate</p>
+            </div>
+            <div class="setup-item">
+                <h4>🖱️ Mouse</h4>
+                <p>Logitech G Pro X Superlight • 25K DPI • Wireless</p>
+            </div>
+            <div class="setup-item">
+                <h4>⌨️ Keyboard</h4>
+                <p>Razer Huntsman V3 Pro • Optical Switches • TKL Layout</p>
+            </div>
+            <div class="setup-item">
+                <h4>🎧 Headset</h4>
+                <p>SteelSeries Arctis Pro Wireless • Hi-Res Audio • Dual Battery</p>
+            </div>
+            <div class="setup-item">
+                <h4>💻 PC Specs</h4>
+                <p>RTX 4090 • AMD Ryzen 9 7950X3D • 64GB DDR5 RAM • 2TB NVMe SSD</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 George "GGTryHarder" • All rights reserved.</p>
+        <p class="last-updated">Last updated: <span id="last-updated"></span></p>
+    </footer>
+
+    <script>
+        // Display last updated time
+        const lastUpdated = new Date(document.lastModified);
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        document.getElementById('last-updated').textContent = lastUpdated.toLocaleDateString('en-US', options);
+
+        // Add intersection observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe cards
+        document.querySelectorAll('.profile-card, .game-card, .achievement, .setup-item').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = `opacity 0.6s ease ${index * 0.05}s, transform 0.6s ease ${index * 0.05}s`;
+            observer.observe(card);
+        });
+    </script>
+</body>
+
+</html>
